@@ -29,30 +29,73 @@ get '/' do
 end
 
 get '/tarefas' do
-  DB[:tarefas].all.to_json
+  content_type :json
+  DB[:tarefas].order(Sequel.desc(:priority)).all.to_json
 end
 
 post '/tarefas' do
-  data = JSON.parse request.body.read
+  data = JSON.parse request.body.read # JSON::ParserError pode acontecer aqui
+
+  if data['task'].nil? || data['responsible'].nil? || data['priority'].nil?
+    halt 400,
+         { error: 'Campos obrigatórios: task, responsible, priority' }.to_json
+  end
+
+  halt 400, { error: 'Prioridade deve ser um número' }.to_json unless data['priority'].is_a?(Integer)
+  halt 400, { error: 'Tarefa muito longa (máx 60 caracteres)' }.to_json if data['task'].length > 60
+  halt 400, { error: 'Responsável muito longo (máx 30 caracteres)' }.to_json if data['responsible'].length > 30
+
   id_novo = DB[:tarefas].insert(%i[task responsible priority], [data['task'], data['responsible'], data['priority']])
+
   status 201
-  { id: id_novo }.to_json
+  content_type :json
+  { id: id_novo, message: 'Tarefa criada com sucesso' }.to_json
+rescue JSON::ParserError
+  content_type :json
+  halt 400, { error: 'JSON inválido' }.to_json
 end
 
 get '/tarefas/:id' do
-  DB[:tarefas].where(id: params['id']).all.to_json
+  tarefa = DB[:tarefas].where(id: params['id']).first
+  halt 404, { error: 'Tarefa não encontrada' }.to_json if tarefa.nil?
+
+  content_type :json
+  tarefa.to_json
 end
 
 put '/tarefas/:id' do
+  tarefa = DB[:tarefas].where(id: params['id']).first
+  halt 404, { error: 'Tarefa não encontrada' }.to_json if tarefa.nil?
+
   data = JSON.parse request.body.read
+  if data.key?('priority') && !data['priority'].is_a?(Integer)
+    halt 400,
+         { error: 'Prioridade deve ser um número' }.to_json
+  end
+  if data.key?('task') && data['task'].length > 60
+    halt 400,
+         { error: 'Tarefa muito longa (máx 60 caracteres)' }.to_json
+  end
+  if data.key?('responsible') && data['responsible'].length > 30
+    halt 400,
+         { error: 'Responsável muito longo (máx 30 caracteres)' }.to_json
+  end
+
   DB[:tarefas].where(id: params['id']).update(data)
-  status 201
-  DB[:tarefas].where(id: params['id']).all.to_json
+
+  status 200
+  DB[:tarefas].where(id: params['id']).first.to_json
+rescue JSON::ParserError
+  content_type :json
+  halt 400, { error: 'JSON inválido' }.to_json
 end
 
 delete '/tarefas/:id' do
+  tarefa = DB[:tarefas].where(id: params['id']).first
+  halt 404, { error: 'Tarefa não encontrada' }.to_json if tarefa.nil?
+
   DB[:tarefas].where(id: params['id']).delete
-  status 201
+  status 204
 end
 
 configure do
