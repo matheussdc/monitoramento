@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'sinatra'
+gem 'prometheus-client'
 gem 'puma'
 gem 'rackup'
-gem 'prometheus-client'
+gem 'sequel'
+gem 'sinatra'
+gem 'sqlite3'
