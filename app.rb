@@ -107,4 +107,5 @@ configure do
   set :bind, '0.0.0.0'
   set :port, 4567
   set :static_cache_control, [:public, { max_age: 30 }]
+  set :environment, :production
 end
