@@ -25,7 +25,7 @@ on_start do
 end
 
 get '/' do
-  return 'Hello!'
+  send_file 'public/index.html'
 end
 
 get '/tarefas' do
@@ -100,4 +100,5 @@ end
 
 configure do
   set :port, 4567
+  set :static_cache_control, [:public, { max_age: 30 }]
 end

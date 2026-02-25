@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Lista de Tarefas</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <h1>Lista de Tarefas</h1>
+
+            <div id="message" class="message"></div>
+
+            <!-- Formulário para adicionar nova tarefa -->
+            <form class="form-add" id="formAdd">
+                <input
+                    type="text"
+                    id="newResponsible"
+                    placeholder="Responsável"
+                    required
+                    maxlength="30"
+                />
+                <input
+                    type="text"
+                    id="newTask"
+                    placeholder="Tarefa"
+                    required
+                    maxlength="60"
+                />
+                <input
+                    type="number"
+                    id="newPriority"
+                    placeholder="Prioridade"
+                    required
+                    min="1"
+                    max="5"
+                />
+                <button type="submit" class="btn btn-add">+</button>
+            </form>
+
+            <!-- Tabela de tarefas -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Responsável</th>
+                        <th>Tarefa</th>
+                        <th>Prioridade</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="taskTable">
+                    <tr>
+                        <td colspan="4" class="loading">
+                            Carregando tarefas...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>
