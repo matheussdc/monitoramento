@@ -1,8 +1,13 @@
 require 'json'
 require 'sinatra'
 require 'sequel'
+require 'prometheus/middleware/collector'
+require 'prometheus/middleware/exporter'
 
-DB = Sequel.sqlite 'database.db'
+DB = Sequel.sqlite 'database/database.db'
+
+use Prometheus::Middleware::Collector
+use Prometheus::Middleware::Exporter
 
 on_start do
   DB.create_table?(:tarefas) do
@@ -99,6 +104,7 @@ delete '/tarefas/:id' do
 end
 
 configure do
+  set :bind, '0.0.0.0'
   set :port, 4567
   set :static_cache_control, [:public, { max_age: 30 }]
 end
