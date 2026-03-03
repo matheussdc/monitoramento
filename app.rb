@@ -9,6 +9,41 @@ DB = Sequel.sqlite 'database/database.db'
 use Prometheus::Middleware::Collector
 use Prometheus::Middleware::Exporter
 
+# Configurar CORS
+before do
+  headers 'Access-Control-Allow-Origin' => 'https://monitoramento-6135.onrender.com/',
+          'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers' => 'Content-Type',
+          'Content-Type' => 'application/json'
+end
+
+# Pre-flight requests
+options '*' do
+  status 200
+end
+# Configurar CORS
+before do
+  headers 'Access-Control-Allow-Origin' => '*',
+          'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers' => 'Content-Type',
+          'Content-Type' => 'application/json'
+end
+# Configurar CORS
+# Pre-flight requests
+options '*' do
+  status 200
+end
+before do
+  headers 'Access-Control-Allow-Origin' => '*',
+          'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers' => 'Content-Type',
+          'Content-Type' => 'application/json'
+end
+
+# Pre-flight requests
+options '*' do
+  status 200
+end
 on_start do
   DB.create_table?(:tarefas) do
     primary_key :id
