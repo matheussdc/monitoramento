@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:4567/tarefas";
+const API_URL = "https://monitoramento-6ihe.onrender.com/tarefas";
 
 // Carregar tarefas ao iniciar
 document.addEventListener("DOMContentLoaded", loadTasks);
