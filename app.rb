@@ -13,8 +13,7 @@ use Prometheus::Middleware::Exporter
 before do
   headers 'Access-Control-Allow-Origin' => 'https://monitoramento-6135.onrender.com/',
           'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers' => 'Content-Type',
-          'Content-Type' => 'application/json'
+          'Access-Control-Allow-Headers' => 'Content-Type'
 end
 
 # Pre-flight requests
