@@ -9,17 +9,17 @@ DB = Sequel.sqlite 'database/database.db'
 use Prometheus::Middleware::Collector
 use Prometheus::Middleware::Exporter
 
-# Configurar CORS
-before do
-  headers 'Access-Control-Allow-Origin' => '*',
-          'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers' => 'Content-Type'
-end
+# # Configurar CORS
+# before do
+#   headers 'Access-Control-Allow-Origin' => '*',
+#           'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
+#           'Access-Control-Allow-Headers' => 'Content-Type'
+# end
 
-# Pre-flight requests
-options '*' do
-  status 200
-end
+# # Pre-flight requests
+# options '*' do
+#   status 200
+# end
 
 on_start do
   DB.create_table?(:tarefas) do
