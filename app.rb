@@ -120,4 +120,6 @@ configure do
   set :port, 4567
   set :static_cache_control, [:public, { max_age: 30 }]
   set :environment, :production
+  set :server, :puma
+  set :server_settings, { workers: 0, threads: '1:1' }
 end

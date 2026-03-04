@@ -13,4 +13,4 @@ RUN mkdir -p database
 
 EXPOSE 4567
 
-CMD ["bundle", "exec", "puma", "-t", "1:1", "-w", "0", "-b", "tcp://0.0.0.0:4567", "app.rb"]
+CMD ["ruby", "app.rb"]
